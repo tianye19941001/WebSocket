@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>客户端简单例子</title>
+  <style type="text/css" media="screen">
+    html,body{ text-align: center; }
+    i{ display: block; margin-bottom: 50px; }
+  </style>
+</head>
+<body>
+  <h1>客户端简单例子</h1>
+  <i>这里我们走Kaazing WebSocket为我们提供的接口，这个接口将完整返回我们所发送的数据。</i>
+  <p>状态：<strong id="state"></strong></p>
+  <p>返回数据：<strong id="msg"></strong></p>
+  <input id="sendText" type="text" name="">
+  <button id="sendBtn">发送</button>
+  <button id="closeBtn">关闭</button>
+  <script type="text/javascript">
+
+    var show = document.getElementById('state'),
+        msg  = document.getElementById('msg'),
+        st   = document.getElementById('sendText'),
+        sb   = document.getElementById('sendBtn');
+
+    if ("WebSocket" in window) {
+      var ws = new WebSocket('wss://echo.websocket.org');
+
+      ws.onopen = function(e) { 
+        show.innerText = 'WebSocket连接成功～';
+        ws.send('Hello WebSockets!');
+      };
+
+      ws.onmessage = function(e) {
+        msg.innerText = e.data;
+	  };
+
+	  ws.onclose = function(e) {
+	  	show.innerText = 'WebSocket连接关闭～';
+	  }
+
+	  sb.addEventListener('click',function(){
+	  	ws.send(st.value);
+	  })
+
+    }else{
+      alert('你的浏览器不支持WebSocket');
+    }
+  </script>
+</body>
+</html>
