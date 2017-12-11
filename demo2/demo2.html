@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>自己搭建服务端的例子</title>
+  <style type="text/css" media="screen">
+    html,body{ text-align: center; }
+    i{ display: block; margin-bottom: 50px; }
+  </style>
+</head>
+<body>
+  <h1>自己搭建服务端的例子</h1>
+  <i>这里我们使用<a href="https://github.com/sitegui/nodejs-websocket">nodejs-websocket</a>搭建了自己的服务端来返回数据，当然为了显示区别我们将服务端接收的数据进行了一些处理并返回。</i>
+  <p>状态：<strong id="state"></strong></p>
+  <p>返回数据：<strong id="msg"></strong></p>
+  <input id="sendText" type="text" name="">
+  <button id="sendBtn">发送</button>
+  <button id="closeBtn">关闭</button>
+  <script type="text/javascript">
+
+    var show = document.getElementById('state'),
+        msg  = document.getElementById('msg'),
+        st   = document.getElementById('sendText'),
+        sb   = document.getElementById('sendBtn');
+
+    if ("WebSocket" in window) {
+      var ws = new WebSocket('ws://localhost:2333/');
+
+      ws.onopen = function(e) { 
+        show.innerText = 'WebSocket连接成功～';
+      };
+
+      ws.onmessage = function(e) {
+        msg.innerText = e.data;
+	  };
+
+	  ws.onclose = function(e) {
+	  	show.innerText = 'WebSocket连接关闭～';
+	  }
+
+	  sb.addEventListener('click',function(){
+	  	ws.send(st.value);
+	  })
+
+    }else{
+      alert('你的浏览器不支持WebSocket');
+    }
+  </script>
+</body>
+</html>
