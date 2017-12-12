@@ -9,7 +9,7 @@
 ~~~
 ├── demo1        # 使用 `wss://echo.websocket.org`
 |                
-├── demo2        # 使用 `nodejs-websocket` 自己搭建服务端
+├── demo2        # 使用 `nodejs-websocket` 搭建服务端
 ├── demo3        # 111
 │   ├── artisan  # 111
 │   └── ui       # 111

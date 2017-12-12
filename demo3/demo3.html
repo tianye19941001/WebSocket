@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>聊天室雏形</title>
+  <style type="text/css" media="screen">
+    html,body{ text-align: center; }
+    i{ display: block; margin-bottom: 50px; }
+    li{ list-style: none; }
+  </style>
+</head>
+<body>
+  <h1>聊天室雏形</h1>
+  <i></i>
+  <p>状态：<strong id="state"></strong></p>
+  <p>返回数据：<strong id="msg"></strong></p>
+  <input id="sendText" type="text" name="">
+  <button id="sendBtn">发送</button>
+  <button id="closeBtn">关闭</button>
+  <ul id="list"></ul>
+  <script type="text/javascript">
+
+    var show = document.getElementById('state'),
+        msg  = document.getElementById('msg'),
+        st   = document.getElementById('sendText'),
+        sb   = document.getElementById('sendBtn'),
+        msgs = document.getElementById('list');
+
+    if ("WebSocket" in window) {
+      var ws = new WebSocket('ws://localhost:2333/');
+
+      ws.onopen = function(e) { 
+        show.innerText = 'WebSocket连接成功～';
+      };
+
+      ws.onmessage = function(e) {
+        msg.innerText = e.data;
+        addMsg(e.data);
+	  };
+
+	  ws.onclose = function(e) {
+	  	show.innerText = 'WebSocket连接关闭～';
+	  }
+
+	  sb.addEventListener('click',function(){
+	  	ws.send(st.value);
+	  })
+
+	  function addMsg(msg) {
+	  	var list = document.createElement('li');
+	  	list.innerText = msg;
+	  	msgs.appendChild(list);
+	  }
+
+    }else{
+      alert('你的浏览器不支持WebSocket');
+    }
+  </script>
+</body>
+</html>
