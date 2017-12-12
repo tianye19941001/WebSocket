@@ -10,7 +10,7 @@
 ├── demo1        # 使用 `wss://echo.websocket.org`
 |                
 ├── demo2        # 使用 `nodejs-websocket` 搭建服务端
-├── demo3        # 111
+├── demo3        # 使用 `nodejs-websocket` 做一个聊天室雏形
 │   ├── artisan  # 111
 │   └── ui       # 111
 ├── demo4        # 111
