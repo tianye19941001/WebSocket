@@ -18,8 +18,12 @@
 └── demo4        # 使用 `socket.io` 重构聊天室
 ~~~
 
-## 打开demo
+## 尝试步骤
 
-进入到相关demo目录
+- 命令行进入到相关demo目录
 
-```node WebSocket```
+- ```node WebSocket```
+
+- 打开html文件尝试尝试吧
+
+> 聊天室同时打开多个浏览器标签就可以try一下
