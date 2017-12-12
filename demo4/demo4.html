@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>socket.io</title>
+	<style type="text/css" media="screen">
+		html,body{ text-align: center; min-width: 600px; }
+	    li{ list-style: none; }
+	    #list li{ line-height: 30px; }
+	    #list .message{ font-size: 16px; color: blue; text-align: left; }
+	    #list .connect,#list .changeName{ font-size: 12px; color: red; }
+	    #list .disconnect{ font-size: 12px; color: gray; }
+	    .chatRoom{ width: 600px; height: 450px; border: 1px solid black; margin: 0 auto; overflow: scroll; margin-bottom: 20px; }
+	</style>
+</head>
+<body>
+	<h1>小小的陌生人聊天室</h1>
+	<div class="chatRoom">
+		<ul id="list"></ul>
+	</div>
+	<input id="sendText" type="text" name="">
+	<button id="sendBtn">发送</button>
+	<input id="changeName" type="text" name="">
+	<button id="changeBtn">换个名字</button>
+	<script src="./socket.io.js"></script>
+	<script>
+
+	  var show = document.getElementById('state'),
+          msg  = document.getElementById('msg'),
+          st   = document.getElementById('sendText'),
+          sb   = document.getElementById('sendBtn'),
+          cn   = document.getElementById('changeName'),
+          cb   = document.getElementById('changeBtn'),
+          msgs = document.getElementById('list');
+
+	  var socket = io('ws://localhost:3000');
+
+	  function showMsg(data, type) {
+	  	var list = document.createElement('li');
+	  	list.innerText = data;
+	  	list.className = type;
+
+	  	msgs.appendChild(list);
+	  }
+
+	  sb.addEventListener('click',function(){
+	  	if (st.value) {
+	  	  socket.emit('message', st.value);
+	  	}
+	  })
+
+	  cb.addEventListener('click',function(){
+	  	if (cn.value) {
+	  	  socket.emit('changeName', cn.value);
+	  	}
+	  })
+
+	  socket.on('connects', function (data) {
+	    showMsg(data, 'connect');
+	  });
+
+	  socket.on('message', function (data) {
+	  	console.log(data)
+
+	    showMsg(data, 'message');
+	  });
+
+	  socket.on('disconnect', function (data) {
+	    showMsg(data, 'disconnect');
+	  });
+
+	  socket.on('changeName', function (data) {
+	    showMsg(data, 'changeName');
+	  });
+
+	</script>
+</body>
+</html>
